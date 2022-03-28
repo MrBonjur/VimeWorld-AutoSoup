@@ -20,7 +20,7 @@ Bypass for method PostMessage (pressing keys in a minimized window)
 
 Example pattern: ```00 1D 0F FF 00 ?? 4D```
 
-Replacw pattern in code: ```\x00\x1D\x0F\xFF\x00\x00\x4D```
+Replace pattern in code: ```\x00\x1D\x0F\xFF\x00\x00\x4D```
 mask in code: ```xxxxx?x```
 
 
