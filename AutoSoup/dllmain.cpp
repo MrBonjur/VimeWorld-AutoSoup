@@ -61,12 +61,11 @@ void UseSlotLogic() {
 }
 
 void DebugMode() {
-	FILE* fDummy;
 	AllocConsole();
-	freopen_s(&fDummy, "CONIN$", "r", stdin);
-	freopen_s(&fDummy, "CONOUT$", "w", stderr);
-	freopen_s(&fDummy, "CONOUT$", "w", stdout);
-	printf("Debug mode!\n");
+	freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
+	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+
+	SetConsoleTitleA("Debug console");
 }
 
 void AutoSoup(HMODULE hModule)
@@ -98,7 +97,14 @@ void AutoSoup(HMODULE hModule)
 		Sleep(50);
 	}
 	
-	if (isDebugMode) FreeConsole();
+	if (isDebugMode) {
+		fclose((FILE*)stdin);
+		fclose((FILE*)stdout);
+
+		HWND hwnd = GetConsoleWindow();
+		FreeConsole();
+		PostMessageW(hwnd, WM_CLOSE, 0, 0);
+	}
 	UnhookWindowsHookEx(_hook);	
 	FreeLibraryAndExitThread(hModule, 0);
 }
